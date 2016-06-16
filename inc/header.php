@@ -22,4 +22,12 @@
 
 	</div>
 
+	<div class="search">
+		<form method="get" action="catalog.php">
+			<input type="text" name="s" id="s"/>
+			<input type="submit" value="go"/>
+		</form>
+	</div>
+	
+	
 	<div id="content">
