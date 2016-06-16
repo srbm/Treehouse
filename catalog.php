@@ -3,6 +3,7 @@ include("inc/functions.php");
 
 $pageTitle = "Full Catalog";
 $section = null;
+$search = null;
 $items_per_page = 8;
 
 if (isset($_GET["cat"])) {
@@ -18,9 +19,13 @@ if (isset($_GET["cat"])) {
     }
 }
 
+if (isset($_GET["s"])) {
+  $search = filter_input(INPUT_GET,"pg",FILTER_SANITIZE_NUMBER_STRING);
+}
 if (isset($_GET["pg"])) {
   $current_page = filter_input(INPUT_GET,"pg",FILTER_SANITIZE_NUMBER_INT);
 }
+
 if (empty($current_page)) {
   $current_page = 1;
 }
