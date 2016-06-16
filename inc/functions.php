@@ -61,6 +61,42 @@ function full_catalog_array($limit = null, $offset = 0) {
     $catalog = $results->fetchAll();
     return $catalog;
 }
+function search_catalog_array($category, $limit = null, $offset = 0) {
+    include("connection.php");
+
+	try {
+       $sql = "SELECT media_id, title, category,img 
+         FROM Media
+         WHERE title LIKE = ?
+         ORDER BY 
+         REPLACE(
+           REPLACE(
+              REPLACE(title,'The ',''),
+              'An ',
+              ''
+           ),
+           'A ',
+           ''
+         )";
+       if (is_integer($limit)) {
+          $results = $db->prepare($sql . " LIMIT ? OFFSET ?");
+         $results->bindValue(1,"%".$search."%",PDO::PARAM_STR);
+          $results->bindParam(2,$limit,PDO::PARAM_INT);
+          $results->bindParam(3,$offset,PDO::PARAM_INT);
+       } else {
+         $results = $db->prepare($sql);
+         $results->bindValue(1,"%".$search."%",PDO::PARAM_STR);
+       }
+       $results->execute();
+    } catch (Exception $e) {
+       echo "Unable to retrieved results";
+       exit;
+    }
+    
+    $catalog = $results->fetchAll();
+    return $catalog;
+}
+
 function category_catalog_array($category, $limit = null, $offset = 0) {
     include("connection.php");
     $category = strtolower($category);
